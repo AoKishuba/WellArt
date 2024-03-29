@@ -1,11 +1,13 @@
+using System.Diagnostics;
+
 namespace WellArt
 {
-    public partial class Form1 : Form
+    public partial class InputForm : Form
     {
         private List<Color> colorList = [Color.White];
-        private List<RoundButton> wellButtons = [];
+        private List<RoundButton> wellButtonList = [];
 
-        public Form1()
+        public InputForm()
         {
             InitializeComponent();
             InitializeGrid(20, 20, 125, 60, 8, 12, 5, 5);
@@ -76,23 +78,22 @@ namespace WellArt
                 {
                     int xCoord = startX + (buttonWidth + xSpacing) * column;
                     int yCoord = startY + (buttonHeight + ySpacing) * row;
-                    Dictionary<string, int> tagDict = [];
-                    tagDict.Add("x", column);
-                    tagDict.Add("y", row);
-                    tagDict.Add("colorIndex", 0);
+
+                    // Set button info
+                    Well well = new(column, row);
                     RoundButton button = new()
                     {
                         Width = buttonWidth,
                         Height = buttonHeight,
                         Location = new Point(xCoord, yCoord),
-                        Tag = tagDict,
-                        BackColor = Color.White
+                        Tag = well,
+                        BackColor = well.Color
                     };
 
                     // Add click handler function (defined below)
                     button.Click += Well_Button_Click;
                     Controls.Add(button);
-                    wellButtons.Add(button);
+                    wellButtonList.Add(button);
                 }
             }
         }
@@ -104,24 +105,71 @@ namespace WellArt
         {
             RoundButton clickedButton = (RoundButton)sender;
 
-            // Change to next color on list, or wrap around if at end of list
-            // Get values from Tag dictionary (which also contains coördinates)
-            Dictionary<string, int> tagDict = (Dictionary<string, int>)clickedButton.Tag;
+            Well well = (Well)clickedButton.Tag;
 
-            int currentIndex = tagDict["colorIndex"];
+            // Change to next color on list, or wrap around if at end of list
+            int currentIndex = colorList.IndexOf(well.Color);
             int nextIndex = currentIndex == colorList.Count - 1 ? 0 : currentIndex + 1;
-            tagDict["colorIndex"] = nextIndex;
-            clickedButton.BackColor = colorList[nextIndex];
-            clickedButton.FlatAppearance.BorderColor = colorList[nextIndex];
+
+            Color newColor = colorList[nextIndex];
+            well.Color = newColor;
+            clickedButton.BackColor = newColor;
+
+            // Update button
+            clickedButton.Tag = well;
         }
 
+        /// <summary>
+        /// Reset button colors to reflect updated color list
+        /// </summary>
         private void ColorLB_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Update color list
             colorList = [Color.White];
             foreach (Color checkedColor in ColorLB.CheckedItems)
             {
                 colorList.Add(checkedColor);
             }
+
+            // Update button tag info
+            foreach (RoundButton button in wellButtonList)
+            {
+                Well well = (Well)button.Tag;
+
+                if (!colorList.Contains(button.BackColor))
+                {
+                    // Reset to white if current color is no longer on list
+                    button.BackColor = Color.White;
+                }
+                // Update tag
+                button.Tag = well;
+            }
+
+            // Need at least as many pipettor settings as colors
+            SettingsCountUD.Minimum = Math.Max(1, ColorLB.CheckedItems.Count);
+        }
+
+
+        private void GenerateProcedureButton_Click(object sender, EventArgs e)
+        {
+            colorList.Remove(Color.White);
+            ProcedureGenerator.GenerateProcedure(colorList, wellButtonList, (int)SettingsCountUD.Value);
+        }
+
+        /// <summary>
+        /// Creates popup message displaying filename and directory of procedure file
+        /// </summary>
+        /// <param name="fileName">Auto-generated filename of text file containing procedure</param>
+        public static void ShowFilenameAndDirectory(string fileName)
+        {
+            // Initialize MessageBox variables
+            string directoryName = Directory.GetCurrentDirectory();
+            string message = $"File {fileName} has been saved at {directoryName}";
+            string caption = "Procedure Created";
+            MessageBoxButtons buttons = MessageBoxButtons.OK;
+
+            // Dispay MessageBox
+            MessageBox.Show(message, caption, buttons);
         }
     }
 }

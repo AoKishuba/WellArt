@@ -120,4 +120,11 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="SettingsCountUD.ToolTip" xml:space="preserve">
+    <value>How many times, at most and per pipettor size, should the student need to set volume?
+Setting this number to 3 will require the student to set the P20 volume at most three times,
+and will also require them to set the P200 volume at most three times.
+
+Actual number of settings may be lower.</value>
+  </data>
 </root>

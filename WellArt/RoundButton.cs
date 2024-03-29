@@ -11,7 +11,7 @@ namespace WellArt
     {
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
-            GraphicsPath grPath = new GraphicsPath();
+            GraphicsPath grPath = new();
             grPath.AddEllipse(0, 0, ClientSize.Width, ClientSize.Height);
             this.Region = new System.Drawing.Region(grPath);
             base.OnPaint(e);
