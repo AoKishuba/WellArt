@@ -45,7 +45,7 @@
             ColorLB.FormattingEnabled = true;
             ColorLB.Location = new Point(12, 44);
             ColorLB.Name = "ColorLB";
-            ColorLB.Size = new Size(75, 94);
+            ColorLB.Size = new Size(75, 112);
             ColorLB.TabIndex = 0;
             toolTip1.SetToolTip(ColorLB, "Check a color to include it in the design");
             ColorLB.SelectedIndexChanged += ColorLB_SelectedIndexChanged;
@@ -63,7 +63,7 @@
             // 
             // SettingsCountUD
             // 
-            SettingsCountUD.Location = new Point(12, 163);
+            SettingsCountUD.Location = new Point(12, 176);
             SettingsCountUD.Maximum = new decimal(new int[] { 20, 0, 0, 0 });
             SettingsCountUD.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             SettingsCountUD.Name = "SettingsCountUD";
@@ -76,7 +76,7 @@
             // SettingsCountLabel
             // 
             SettingsCountLabel.AutoSize = true;
-            SettingsCountLabel.Location = new Point(12, 145);
+            SettingsCountLabel.Location = new Point(12, 158);
             SettingsCountLabel.Name = "SettingsCountLabel";
             SettingsCountLabel.Size = new Size(59, 15);
             SettingsCountLabel.TabIndex = 3;

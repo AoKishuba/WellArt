@@ -17,6 +17,7 @@ namespace WellArt
             ColorLB.Items.Add(Color.Green);
             ColorLB.Items.Add(Color.Blue);
             ColorLB.Items.Add(Color.Yellow);
+            ColorLB.Items.Add(Color.Orange);
             ColorLB.Items.Add(Color.Purple);
         }
 
