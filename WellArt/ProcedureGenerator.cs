@@ -161,80 +161,88 @@ namespace WellArt
             // Group wells of each color by P20 and P200 volume
             foreach (Color color in colorList)
             {
-                // P20
-                Dictionary<int, List<Well>> wellsByPTwentyDict = [];
-                foreach (int pTwentyVolume in pTwentyVolumeSettingDict[color])
+                // Skip colors which were selected by not used
+                if (wellsByColorDict[color].Count > 0)
                 {
-                    wellsByPTwentyDict[pTwentyVolume] = [];
-                    foreach (Well well in wellsByColorDict[color])
+                    // P20
+                    Dictionary<int, List<Well>> wellsByPTwentyDict = [];
+                    foreach (int pTwentyVolume in pTwentyVolumeSettingDict[color])
                     {
-                        if (well.PTwentyVolume == pTwentyVolume)
+                        wellsByPTwentyDict[pTwentyVolume] = [];
+                        foreach (Well well in wellsByColorDict[color])
                         {
-                            wellsByPTwentyDict[pTwentyVolume].Add(well);
+                            if (well.PTwentyVolume == pTwentyVolume)
+                            {
+                                wellsByPTwentyDict[pTwentyVolume].Add(well);
+                            }
                         }
+                        // Sort list by coördinates (leave volumes random)
+                        wellsByPTwentyDict[pTwentyVolume] =
+                            [.. wellsByPTwentyDict[pTwentyVolume].OrderBy(a => a.Y).ThenBy(a => a.X)];
                     }
-                    // Sort list by coördinates (leave volumes random)
-                    wellsByPTwentyDict[pTwentyVolume] =
-                        [.. wellsByPTwentyDict[pTwentyVolume].OrderBy(a => a.Y).ThenBy(a => a.X)];
-                }
-                // Write instructions to file
-                writer.WriteLine("Using the " + color.Name + " dye:");
-                // Spacing
-                writer.WriteLine("");
+                    // Write instructions to file
+                    writer.WriteLine("Using the " + color.Name + " dye:");
+                    // Spacing
+                    writer.WriteLine("");
 
-                foreach (int volume in pTwentyVolumeSettingDict[color])
-                {
-                    // Generate line of text for procedure
-                    // Lines must be written as one string
-                    string line = volume.ToString() + " uL: ";
-                    line += wellsByPTwentyDict[volume][0].ToString();
-                    for (int i = 0; i < wellsByPTwentyDict[volume].Count; i++)
+                    foreach (int volume in pTwentyVolumeSettingDict[color])
                     {
-                        line += ", " + wellsByPTwentyDict[volume][i].ToString();
+                        // Generate line of text for procedure
+                        // Lines must be written as one string
+                        string line = volume.ToString() + " uL: ";
+                        line += wellsByPTwentyDict[volume][0].ToString();
+                        for (int i = 0; i < wellsByPTwentyDict[volume].Count; i++)
+                        {
+                            line += ", " + wellsByPTwentyDict[volume][i].ToString();
+                        }
+                        writer.WriteLine(line);
                     }
-                    writer.WriteLine(line);
+                    // Spacing
+                    writer.WriteLine("");
                 }
-                // Spacing
-                writer.WriteLine("");
             }
 
             foreach (Color color in colorList)
             {
-                // P200
-                Dictionary<int, List<Well>> wellsByTwoHundredDict = [];
-                foreach (int pTwoHundredVolume in pTwoHundredVolumeSettingDict[color])
+                // Skip colors which were selected but not used
+                if (wellsByColorDict[color].Count > 0)
                 {
-                    wellsByTwoHundredDict[pTwoHundredVolume] = [];
-                    foreach (Well well in wellsByColorDict[color])
+                    // P200
+                    Dictionary<int, List<Well>> wellsByTwoHundredDict = [];
+                    foreach (int pTwoHundredVolume in pTwoHundredVolumeSettingDict[color])
                     {
-                        if (well.PTwoHundredVolume == pTwoHundredVolume)
+                        wellsByTwoHundredDict[pTwoHundredVolume] = [];
+                        foreach (Well well in wellsByColorDict[color])
                         {
-                            wellsByTwoHundredDict[pTwoHundredVolume].Add(well);
+                            if (well.PTwoHundredVolume == pTwoHundredVolume)
+                            {
+                                wellsByTwoHundredDict[pTwoHundredVolume].Add(well);
+                            }
                         }
+                        // Sort list by coördinates (leave volumes random)
+                        wellsByTwoHundredDict[pTwoHundredVolume] =
+                            [.. wellsByTwoHundredDict[pTwoHundredVolume].OrderBy(a => a.Y).ThenBy(a => a.X)];
                     }
-                    // Sort list by coördinates (leave volumes random)
-                    wellsByTwoHundredDict[pTwoHundredVolume] =
-                        [.. wellsByTwoHundredDict[pTwoHundredVolume].OrderBy(a => a.Y).ThenBy(a => a.X)];
-                }
-                // Write instructions to file
-                writer.WriteLine("Using the " + color.Name + " dye:");
-                // Spacing
-                writer.WriteLine("");
+                    // Write instructions to file
+                    writer.WriteLine("Using the " + color.Name + " dye:");
+                    // Spacing
+                    writer.WriteLine("");
 
-                foreach (int volume in pTwoHundredVolumeSettingDict[color])
-                {
-                    // Generate line of text for procedure
-                    // Lines must be written as one string
-                    string line = volume.ToString() + " uL: ";
-                    line += wellsByTwoHundredDict[volume][0].ToString();
-                    for (int i = 0; i < wellsByTwoHundredDict[volume].Count; i++)
+                    foreach (int volume in pTwoHundredVolumeSettingDict[color])
                     {
-                        line += ", " + wellsByTwoHundredDict[volume][i].ToString();
+                        // Generate line of text for procedure
+                        // Lines must be written as one string
+                        string line = volume.ToString() + " uL: ";
+                        line += wellsByTwoHundredDict[volume][0].ToString();
+                        for (int i = 0; i < wellsByTwoHundredDict[volume].Count; i++)
+                        {
+                            line += ", " + wellsByTwoHundredDict[volume][i].ToString();
+                        }
+                        writer.WriteLine(line);
                     }
-                    writer.WriteLine(line);
+                    // Spacing
+                    writer.WriteLine("");
                 }
-                // Spacing
-                writer.WriteLine("");
             }
 
             // Spacing
