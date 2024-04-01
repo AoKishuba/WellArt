@@ -133,6 +133,7 @@ namespace WellArt
                         well.PTwoHundredVolume = pTwoHundredVolumeSettingDict[color][i];
 
                         totalVolume += well.PTwentyVolume + well.PTwoHundredVolume;
+                        Debug.WriteLine("Assigning first volume " + pTwentyVolumeSettingDict[color][i] + " uL to " + well.ToString());
                     }
                     // Assign random settings to remaining wells of current color
                     for (int i = settingCount; i < wellsByColorDict[color].Count; i++)
@@ -143,6 +144,7 @@ namespace WellArt
                         int pTwoHundredVolumeindex = random.Next(0, settingCount);
                         well.PTwentyVolume = pTwentyVolumeSettingDict[color][pTwentyVolumeIndex];
                         well.PTwoHundredVolume = pTwoHundredVolumeSettingDict[color][pTwoHundredVolumeindex];
+                        Debug.WriteLine("Assigning volume index " + i.ToString() + ", " + pTwentyVolumeSettingDict[color][i] + " uL to " + well.ToString());
 
                         totalVolume += well.PTwentyVolume + well.PTwoHundredVolume;
                     }
@@ -191,7 +193,7 @@ namespace WellArt
                         // Lines must be written as one string
                         string line = volume.ToString() + " uL: ";
                         line += wellsByPTwentyDict[volume][0].ToString();
-                        for (int i = 0; i < wellsByPTwentyDict[volume].Count; i++)
+                        for (int i = 1; i < wellsByPTwentyDict[volume].Count; i++)
                         {
                             line += ", " + wellsByPTwentyDict[volume][i].ToString();
                         }
@@ -234,7 +236,7 @@ namespace WellArt
                         // Lines must be written as one string
                         string line = volume.ToString() + " uL: ";
                         line += wellsByTwoHundredDict[volume][0].ToString();
-                        for (int i = 0; i < wellsByTwoHundredDict[volume].Count; i++)
+                        for (int i = 1; i < wellsByTwoHundredDict[volume].Count; i++)
                         {
                             line += ", " + wellsByTwoHundredDict[volume][i].ToString();
                         }
@@ -248,6 +250,7 @@ namespace WellArt
             // Spacing
             writer.WriteLine("");
             writer.WriteLine("Total volume: " + totalVolume.ToString() + " uL");
+            writer.Close(); // Writes to file even if user doesn't close popup below
 
             // Create popup showing filename and location
             InputForm.ShowFilenameAndDirectory(fileName);

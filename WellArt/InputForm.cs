@@ -5,12 +5,15 @@ namespace WellArt
     public partial class InputForm : Form
     {
         private List<Color> colorList = [Color.White];
-        private List<RoundButton> wellButtonList = [];
+        private readonly List<RoundButton> wellButtonList = [];
 
         public InputForm()
         {
             InitializeComponent();
-            InitializeGrid(20, 20, 125, 60, 8, 12, 5, 5);
+            int buttonDiameter = this.Width / 22;
+            int startY = (int)Math.Ceiling(InstructionsTB.Height * 2m);
+            int startX = (int)Math.Ceiling(ColorLB.Width * 1.5);
+            InitializeGrid(buttonDiameter, buttonDiameter, startX, startY, 8, 12, 5, 5);
 
             // Initialize color-picking Checked ListBox
             ColorLB.Items.Add(Color.Red);
@@ -48,6 +51,7 @@ namespace WellArt
                 int xCoord = startX + (xSpacing + buttonWidth) * column + 3;
                 Label columnLabel = new()
                 {
+                    Anchor = AnchorStyles.Top,
                     AutoSize = true,
                     Location = new Point(xCoord, startY - buttonHeight),
                     Text = (column + 1).ToString(),
@@ -62,6 +66,7 @@ namespace WellArt
                 char labelText = (char)('A' + row);
                 Label columnLabel = new()
                 {
+                    Anchor = AnchorStyles.Left,
                     AutoSize = true,
                     Location = new Point(startX - buttonWidth, yCoord),
                     Text = labelText.ToString(),
@@ -84,6 +89,7 @@ namespace WellArt
                     Well well = new(column, row);
                     RoundButton button = new()
                     {
+                        Anchor = AnchorStyles.Top,
                         Width = buttonWidth,
                         Height = buttonHeight,
                         Location = new Point(xCoord, yCoord),

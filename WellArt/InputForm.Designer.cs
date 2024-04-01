@@ -95,7 +95,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(432, 262);
+            ClientSize = new Size(424, 261);
             Controls.Add(SettingsCountUD);
             Controls.Add(InstructionsTB);
             Controls.Add(GenerateProcedureButton);
