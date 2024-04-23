@@ -116,7 +116,7 @@ namespace WellArt
 
             // Change to next color on list, or wrap around if at end of list
             int currentIndex = colorList.IndexOf(well.Color);
-            int nextIndex = currentIndex == colorList.Count - 1 ? 0 : currentIndex + 1;
+            int nextIndex = currentIndex >= colorList.Count - 1 ? 0 : currentIndex + 1;
 
             Color newColor = colorList[nextIndex];
             well.Color = newColor;
@@ -147,6 +147,7 @@ namespace WellArt
                 {
                     // Reset to white if current color is no longer on list
                     button.BackColor = Color.White;
+                    well.Color = Color.White;
                 }
                 // Update tag
                 button.Tag = well;
